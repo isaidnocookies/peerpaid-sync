@@ -3,8 +3,7 @@ const createService = require('feathers-mongoose');
 const createModel = require('../../models/messages.model');
 const hooks = require('./messages.hooks');
 
-module.exports = function () {
-  const app = this;
+module.exports = function (app) {
   const Model = createModel(app);
   const paginate = app.get('paginate');
 

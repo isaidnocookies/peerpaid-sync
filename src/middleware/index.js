@@ -1,7 +1,4 @@
 const testMiddleware = require('./test-middleware');
-module.exports = function () {
-  // Add your custom middleware here. Remember, that
-  // in Express the order matters
-  const app = this; // eslint-disable-line no-unused-vars
+module.exports = function (app) {
   app.use(testMiddleware());
 };

@@ -1,6 +1,6 @@
 module.exports = function (options = {}) {
   return function testMiddleware(req, res, next) {
-    console.log('testMiddleware middleware is running');
+    console.log('test-middleware middleware is running');
     next();
   };
 };
