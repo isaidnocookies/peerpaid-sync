@@ -1,5 +1,4 @@
 // Application hooks that run for every service
-const logger = require('./hooks/logger');
 
 module.exports = {
   before: {
@@ -13,7 +12,14 @@ module.exports = {
   },
 
   after: {
-    all: [ logger() ],
+    all: [
+      hook => {
+        if (hook.params.provider === "mubsub") {
+          throw new Error("Not Allowed");
+        }
+      }
+
+    ],
     find: [],
     get: [],
     create: [],
@@ -23,7 +29,7 @@ module.exports = {
   },
 
   error: {
-    all: [ logger() ],
+    all: [],
     find: [],
     get: [],
     create: [],
