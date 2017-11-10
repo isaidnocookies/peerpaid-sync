@@ -5,5 +5,30 @@
   "paginate": {
     "default": 10,
     "max": 50
-  }
+  },
+  "authentication": {
+    "secret": "62ef01db857db7f4523248e64a9718b99e356b755e0c8b078b9e8ce57c34b9f12325934fb82bf6bca130f69824e9c4bc885d12b70fed63b24169fad4a4185b53de01cd5a0a6354c0b12324b077fb88b64a4360db6a936d5d59d1eb74f15072a61082f432372e5896e1dc872d15f40f0273fe0909ccdfc1cb8491bcb7cbfd86033e372eff055f4d9707275a54e00f027089fb0118da3a33f306af2b4f69ffe372f0e3b1b4982d8606d909bdf5d337124f26e8f9ceae8700211f31aa5567df3805b4052b8ebd1cfcfc7966b48aefa37919b75b062093132edbc60fbad330ea4598055fa0e66e865868d09cd3f36b890a1bf73ab43b4aab122aa19122911a49b0ea",
+    "strategies": [
+      "jwt",
+      "local"
+    ],
+    "path": "/authentication",
+    "service": "users",
+    "jwt": {
+      "header": {
+        "typ": "access"
+      },
+      "audience": "https://yourdomain.com",
+      "subject": "anonymous",
+      "issuer": "feathers",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    },
+    "local": {
+      "entity": "user",
+      "usernameField": "email",
+      "passwordField": "password"
+    }
+  },
+  "mongodb": "mongodb://localhost:27017/peerpaid_sync"
 }
