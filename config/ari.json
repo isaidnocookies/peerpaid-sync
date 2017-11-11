@@ -1,0 +1,29 @@
+{
+  "syncSettingsDefault": {
+    "feathersSync": {
+      "mubsub": {
+        "authSource": null
+      }
+    },
+    "mongoClient": {
+      "authSource": null
+    }
+  },
+  "syncSettingsServers": {
+    "DATA": {
+      "feathersSync": {
+        "db": "mongodb://localhost:27017/peerpaid_data"
+      }
+    },
+    "BTC": {
+      "feathersSync": {
+        "db": "mongodb://localhost:27017/peerpaid_btc"
+      }
+    },
+    "WEB": {
+      "feathersSync": {
+        "db": "mongodb://localhost:27017/peerpaid_web"
+      }
+    }
+  }
+}

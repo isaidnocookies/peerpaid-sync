@@ -5,5 +5,105 @@
   "paginate": {
     "default": 10,
     "max": 50
+  },
+  "mongoClient": {
+    "reconnectTries": 120,
+    "reconnectInterval": 1000,
+    "authSource": "admin"
+  },
+  "syncSettingsDefault": {
+    "feathersSync": {
+      "size": 41943040, //40 * 1024 * 1024 = 40megs
+      "max": 50000,
+      "mubsub": {
+        "reconnectTries": 120,
+        "reconnectInterval": 1000,
+        "authSource": "admin"
+      },
+      "collection": "_events"
+    },
+    "mongoClient": {
+      "reconnectTries": 120,
+      "reconnectInterval": 1000,
+      "authSource": "admin"
+    },
+    "db":"",
+    "port":0,
+    "title":null,
+    "services": []
+
+  },
+  "syncSettingsServers": {
+    "DATA": {
+      "feathersSync":{
+        "mubsub":{
+          "db": "mongodb://peerpaid:Pe3rB41dP4sswurd@10.0.0.99:27017/peerpaid_data"
+        }
+      },
+      "db": "mongodb://peerpaid:Pe3rB41dP4sswurd@10.0.0.99:27017/peerpaid_data",
+      "port": 3021,
+      "services": [
+        {
+          "name": "bitcoin-transactions",
+          "dbName": "bitcointransactions"
+        },
+        {
+          "name": "currency-accounts",
+          "dbName": "currencyaccounts"
+        },
+        {
+          "name": "requests",
+          "dbName": "requests"
+        },
+        {
+          "name": "wallets",
+          "dbName": "wallets"
+        }
+      ]
+    },
+    "BTC": {
+      "db": "mongodb://peerpaid:Pe3rB41dP4sswurd@10.0.0.99:27017/peerpaid_btc",
+      "port": 3022,
+      "services": [
+        {
+          "name": "bitcoin-transactions",
+          "dbName": "bitcointransactions"
+        },
+        {
+          "name": "currency-accounts",
+          "dbName": "currencyaccounts"
+        },
+        {
+          "name": "requests",
+          "dbName": "requests"
+        },
+        {
+          "name": "wallets",
+          "dbName": "wallets"
+        }
+      ]
+    },
+    "WEB": {
+      "db": "mongodb://peerpaid:Pe3rB41dP4sswurd@10.0.0.99:27017/peerpaid_web",
+      "port": 3023,
+      "services": [
+        {
+          "name": "bitcoin-transactions",
+          "dbName": "bitcointransactions"
+        },
+        {
+          "name": "currency-accounts",
+          "dbName": "currencyaccounts"
+        },
+        {
+          "name": "requests",
+          "dbName": "requests"
+        },
+        {
+          "name": "wallets",
+          "dbName": "wallets"
+        }
+      ]
+    }
   }
 }

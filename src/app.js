@@ -11,6 +11,8 @@ const rest = require('@feathersjs/express/rest');
 const socketio = require('@feathersjs/socketio');
 
 const feathersSync = require('feathers-sync');
+const config = require('config');
+const deepAssign = require('deep-assign');
 
 const handler = require('@feathersjs/errors/handler');
 const notFound = require('@feathersjs/errors/not-found');
@@ -22,7 +24,7 @@ const mongoService = require('feathers-mongodb');
 const appHooks = require('./app.hooks');
 const channels = require('./channels');
 
-function makeApp(config) {
+function makeApp(settings) {
   return new Promise((resolve, reject) => {
     var app = express(feathers());
     // Load app configuration
@@ -41,11 +43,12 @@ function makeApp(config) {
     app.configure(rest());
     app.configure(socketio());
 
-    app.configure(feathersSync(config.feathersSync));
+    console.log("feathersSync:", settings.feathersSync)
+    app.configure(feathersSync(settings.feathersSync));
     // Connect to your MongoDB instance(s)
-    MongoClient.connect(config.db, config.mongoClient).then(function (db) {
+    MongoClient.connect(settings.db, settings.mongoClient).then(function (db) {
       // Connect to the db, create and register a Feathers service.
-      config.services.forEach((serviceDef) => {
+      settings.services.forEach((serviceDef) => {
         console.log('create service', serviceDef.name);
         app.use('/' + serviceDef.name, mongoService({
           Model: db.collection(serviceDef.dbName),
@@ -54,6 +57,18 @@ function makeApp(config) {
             max: 50
           }
         }));
+        app.service(serviceDef.name).hooks({
+          after: {
+            all: [
+              hook => {
+                if (hook.params && hook.params.provider) {
+                  hook.result.emitted = hook.params.provider;
+                }
+                return Promise.resolve(hook);
+              }
+            ]
+          }
+        });
       });
 
       // Set up event channels (see channels.js)
@@ -65,14 +80,11 @@ function makeApp(config) {
       app.hooks(appHooks);
 
       // Start the server
-      app.listen(config.port);
+      app.listen(settings.port);
 
-      app.title = title;
-      setTimeout(() => {
-
-        resolve(app);
-      }, 100);
-
+      app.title = settings.title;
+      app.provider = settings.title;
+      resolve(app);
     }).catch(function (error) {
       reject(error);
     });
@@ -81,99 +93,65 @@ function makeApp(config) {
   });
 }
 
-function makeConfig({ port, mongoClient, db, services, title }) {
-  return {
-    port,
-    feathersSync: {
-      size: 40 * 1024 * 1024,
-      max: 50000,
-      mubsub: mongoClient,
-      db,
-      collection: '_events'
-    },
-    mongoClient,
-    services,
-    db,
-    title
-  };
-}
 
 
-var mongoClient = {
-  reconnectTries: 120,
-  reconnectInterval: 1000,
-  authSource: 'admin'
-};
+var syncSettingsDefault = config.get('syncSettingsDefault');
 
-var services = [
-  { name: 'bitcoin-transactions', dbName: 'bitcointransactions' },
-  { name: 'currency-accounts', dbName: 'currencyaccounts' },
-  { name: 'requests', dbName: 'requests' },
-  { name: 'wallets', dbName: 'wallets' },
-];
+var syncSettingsServers = config.get('syncSettingsServers');
 
-var db = 'mongodb://peerpaid:Pe3rB41dP4sswurd@10.0.0.99:27017/peerpaid_btc';
-var port = 3021;
-var title = 'btcToData';
-var config = makeConfig({ title, port, mongoClient, db, services });
+var syncServerNames = Object.keys(syncSettingsServers);
 
-const appBtcPromise = makeApp(config);
+var appPromises = syncServerNames.map(serverName => {
 
-db = 'mongodb://peerpaid:Pe3rB41dP4sswurd@10.0.0.99:27017/peerpaid_data';
-port = 3022;
-title = 'dataToBtc';
-config = makeConfig({ title, port, mongoClient, db, services });
+  var syncDefault = JSON.parse(JSON.stringify(syncSettingsDefault));
+  var syncServer = JSON.parse(JSON.stringify(syncSettingsServers[serverName]));
+  var combinedSettings = deepAssign({title:serverName}, syncDefault, syncServer);
 
-const appDataPromise = makeApp(config);
+  return makeApp(combinedSettings);
+});
 
-
-
-db = 'mongodb://peerpaid:Pe3rB41dP4sswurd@10.0.0.99:27017/peerpaid_web';
-port = 3023;
-title = 'webToData';
-config = makeConfig({ title, port, mongoClient, db, services });
-
-const appWebPromise = makeApp(config);
-
-
-
-Promise.all([appWebPromise, appDataPromise, appBtcPromise])
+Promise.all(appPromises)
   .then((result) => {
-    const appWeb = result[0];
-    const appData = result[1];
-    const appBtc = result[2];
+    var appList = {};
+    result.forEach(app => {
+      appList[app.title] = app;
+    });
 
-    connectServices(appWeb, appData);
-    connectServices(appBtc, appData);
+    for (var i = 1; i < result.length; i++) {
+      performConnections(result[0], result[i]);
+    }
+
+  }).catch(error => {
+    console.log("Error:", error)
   });
 
 
 
 
 
-function connectServices(appA, appB) {
-  var serviceA = appA.service(services[0].name);
-  var serviceB = appB.service(services[0].name);
-  serviceB = {};
+function performConnections(appA, appB) {
+  
+  
+  var serviceA = appA.service(Object.keys(appA.services)[0]);
+  var serviceB = appB.service(Object.keys(appB.services)[0]);
+
   if (!serviceA || !serviceB) {
     setTimeout(() => {
-      connectServices();
+      performConnections(appA, appB);
     }, 10);
     return;
   }
-  function performConnections(app, appDest) {
+  console.log("Connecting", appA.title, "to", appB.title)
+  function connectServices(app, appDest) {
     var provider = app.provider;
     Object.keys(app.services).forEach(function (path) {
       var service = app.services[path];
       service._serviceEvents.forEach(function (event) {
         var serviceDest = appDest.service(path);
-        if (serviceDest === void 0) {
-          console.log('Service at ', path, 'not exists');
-        }
         service.on(event, (data) => {
           console.log(provider, path + '.on(' + event + ') = ', data._id);
           if (data.emitted === appDest.provider) {
-            console.log(provider, 'Emitted already');
+            console.log(provider, 'Emitted already', data._id, provider, appDest.provider, app === appDest);
             return;
           }
           switch (event) {
@@ -227,9 +205,6 @@ function connectServices(appA, appB) {
       });
     });
   }
-
-  performConnections(appA, appB);
-  performConnections(appB, appA);
-
-
+  connectServices(appA, appB);
+  connectServices(appB, appA);
 }
