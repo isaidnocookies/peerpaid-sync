@@ -13,17 +13,20 @@
     "DATA": {
       "feathersSync": {
         "db": "mongodb://localhost:27017/peerpaid_data"
-      }
+      },
+      "db": "mongodb://localhost:27017/peerpaid_data"
     },
     "BTC": {
       "feathersSync": {
         "db": "mongodb://localhost:27017/peerpaid_btc"
-      }
+      },
+      "db": "mongodb://localhost:27017/peerpaid_btc"
     },
     "WEB": {
       "feathersSync": {
         "db": "mongodb://localhost:27017/peerpaid_web"
-      }
+      },
+      "db": "mongodb://localhost:27017/peerpaid_web"
     }
   }
 }

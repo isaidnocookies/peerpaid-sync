@@ -1,3 +1,4 @@
+var debug = require('debug')('feathers-sync');
 const path = require('path');
 const favicon = require('serve-favicon');
 const compress = require('compression');
@@ -43,13 +44,11 @@ function makeApp(settings) {
     app.configure(rest());
     app.configure(socketio());
 
-    console.log("feathersSync:", settings.feathersSync)
     app.configure(feathersSync(settings.feathersSync));
     // Connect to your MongoDB instance(s)
     MongoClient.connect(settings.db, settings.mongoClient).then(function (db) {
       // Connect to the db, create and register a Feathers service.
       settings.services.forEach((serviceDef) => {
-        console.log('create service', serviceDef.name);
         app.use('/' + serviceDef.name, mongoService({
           Model: db.collection(serviceDef.dbName),
           paginate: {
@@ -105,7 +104,7 @@ var appPromises = syncServerNames.map(serverName => {
 
   var syncDefault = JSON.parse(JSON.stringify(syncSettingsDefault));
   var syncServer = JSON.parse(JSON.stringify(syncSettingsServers[serverName]));
-  var combinedSettings = deepAssign({title:serverName}, syncDefault, syncServer);
+  var combinedSettings = deepAssign({ title: serverName }, syncDefault, syncServer);
 
   return makeApp(combinedSettings);
 });
@@ -122,7 +121,7 @@ Promise.all(appPromises)
     }
 
   }).catch(error => {
-    console.log("Error:", error)
+    debug('Error:', error);
   });
 
 
@@ -130,8 +129,8 @@ Promise.all(appPromises)
 
 
 function performConnections(appA, appB) {
-  
-  
+
+
   var serviceA = appA.service(Object.keys(appA.services)[0]);
   var serviceB = appB.service(Object.keys(appB.services)[0]);
 
@@ -141,67 +140,69 @@ function performConnections(appA, appB) {
     }, 10);
     return;
   }
-  console.log("Connecting", appA.title, "to", appB.title)
+  debug('Connecting', appA.title, 'to', appB.title);
   function connectServices(app, appDest) {
     var provider = app.provider;
     Object.keys(app.services).forEach(function (path) {
       var service = app.services[path];
       service._serviceEvents.forEach(function (event) {
         var serviceDest = appDest.service(path);
-        service.on(event, (data) => {
-          console.log(provider, path + '.on(' + event + ') = ', data._id);
-          if (data.emitted === appDest.provider) {
-            console.log(provider, 'Emitted already', data._id, provider, appDest.provider, app === appDest);
-            return;
-          }
-          switch (event) {
-            case 'created':
-              return new Promise((resolve, reject) => {
-                serviceDest.create(data, { provider }).then(resolve).catch(reject);
-              });
-            case 'patched':
-              return new Promise((resolve, reject) => {
-                var id = data._id || data.id;
-                serviceDest.patch(id, data, { provider }).then(resolve).catch(err => {
-                  return new Promise(resolve, reject => {
-                    setTimeout(() => {
-                      //retry 
-                      serviceDest.patch(id, data, { provider }).then(resolve).catch(reject);
-                    }, 100);
-                  });
-                }).catch(reject);
-              });
-            case 'updated':
-              return new Promise((resolve, reject) => {
-                var id = data._id || data.id;
-                serviceDest.update(id, data, { provider }).then(resolve).catch(err => {
-                  return new Promise(resolve, reject => {
-                    setTimeout(() => {
-                      //retry 
-                      serviceDest.update(data, { provider }).then(resolve).catch(reject);
-                    }, 100);
-                  });
-                }).catch(reject);
-              }).catch(error => console.log(path + 'A.updateErr:', error));
-            case 'removed':
-              return new Promise((resolve, reject) => {
-                setTimeout(() => {
-                  // always delay remove
+        if (serviceDest) {
+          service.on(event, (data) => {
+            debug(provider, path + '.on(' + event + ') = ', data._id);
+            if (data.emitted === appDest.provider) {
+              debug(provider, 'Emitted already', data._id, provider, appDest.provider, app === appDest);
+              return;
+            }
+            switch (event) {
+              case 'created':
+                return new Promise((resolve, reject) => {
+                  serviceDest.create(data, { provider }).then(resolve).catch(reject);
+                });
+              case 'patched':
+                return new Promise((resolve, reject) => {
                   var id = data._id || data.id;
-                  serviceDest.remove(id, { provider }).then(resolve).catch(err => {
+                  serviceDest.patch(id, data, { provider }).then(resolve).catch(err => {
                     return new Promise(resolve, reject => {
                       setTimeout(() => {
                         //retry 
-                        serviceDest.remove(id, { provider }).then(resolve).catch(reject);
+                        serviceDest.patch(id, data, { provider }).then(resolve).catch(reject);
                       }, 100);
                     });
                   }).catch(reject);
-                }, 500);
-              });
-            default:
-            //do nothing
-          }
-        });
+                });
+              case 'updated':
+                return new Promise((resolve, reject) => {
+                  var id = data._id || data.id;
+                  serviceDest.update(id, data, { provider }).then(resolve).catch(err => {
+                    return new Promise(resolve, reject => {
+                      setTimeout(() => {
+                        //retry 
+                        serviceDest.update(data, { provider }).then(resolve).catch(reject);
+                      }, 100);
+                    });
+                  }).catch(reject);
+                }).catch(error => debug(path + 'A.updateErr:', error));
+              case 'removed':
+                return new Promise((resolve, reject) => {
+                  setTimeout(() => {
+                    // always delay remove
+                    var id = data._id || data.id;
+                    serviceDest.remove(id, { provider }).then(resolve).catch(err => {
+                      return new Promise(resolve, reject => {
+                        setTimeout(() => {
+                          //retry 
+                          serviceDest.remove(id, { provider }).then(resolve).catch(reject);
+                        }, 100);
+                      });
+                    }).catch(reject);
+                  }, 500);
+                });
+              default:
+              //do nothing
+            }
+          });
+        }
       });
     });
   }
