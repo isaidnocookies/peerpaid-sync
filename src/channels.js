@@ -7,7 +7,6 @@ module.exports = function(app) {
   app.on('connection', connection => {
     // On a new real-time connection, add it to the
     // anonymous channel
-    console.log("Connection ?:", connection)
     app.channel('anonymous').join(connection);
   });
 

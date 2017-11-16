@@ -13,7 +13,7 @@
   },
   "syncSettingsDefault": {
     "feathersSync": {
-      "size": 41943040, //40 * 1024 * 1024 = 40megs
+      "size": 41943040,
       "max": 50000,
       "mubsub": {
         "reconnectTries": 120,
@@ -21,26 +21,25 @@
         "authSource": "admin"
       },
       "collection": "_events",
-      "db":""
+      "db": ""
     },
     "mongoClient": {
       "reconnectTries": 120,
       "reconnectInterval": 1000,
       "authSource": "admin"
     },
-    "db":"",
-    "port":0,
-    "title":null,
+    "db": "",
+    "port": 0,
+    "title": null,
     "services": []
-
   },
   "syncSettingsServers": {
     "DATA": {
       "port": 3021,
       "services": [
         {
-          "name":"messenger",
-          "dbName":"messenger"
+          "name": "messenger",
+          "dbName": "messenger"
         },
         {
           "name": "bitcoin-transactions",
@@ -58,7 +57,11 @@
           "name": "wallets",
           "dbName": "wallets"
         }
-      ]
+      ],
+      "feathersSync": {
+        "db": "mongodb://peerpaid:Pe3rB41dP4sswurd@10.0.0.99:27017/peerpaid_data_server"
+      },
+      "db": "mongodb://peerpaid:Pe3rB41dP4sswurd@10.0.0.99:27017/peerpaid_data_server"
     },
     "BTC": {
       "port": 3022,
@@ -79,7 +82,11 @@
           "name": "wallets",
           "dbName": "wallets"
         }
-      ]
+      ],
+      "feathersSync": {
+        "db": "mongodb://peerpaid:Pe3rB41dP4sswurd@10.0.0.99:27017/peerpaid_btc_server"
+      },
+      "db": "mongodb://peerpaid:Pe3rB41dP4sswurd@10.0.0.99:27017/peerpaid_btc_server"
     },
     "WEB": {
       "port": 3023,
@@ -100,7 +107,28 @@
           "name": "wallets",
           "dbName": "wallets"
         }
-      ]
+      ],
+      "feathersSync": {
+        "db": "mongodb://peerpaid:Pe3rB41dP4sswurd@10.0.0.99:27017/peerpaid_web_server"
+      },
+      "db": "mongodb://peerpaid:Pe3rB41dP4sswurd@10.0.0.99:27017/peerpaid_web_server"
+    },
+    "FIAT": {
+      "port": 3024,
+      "services": [
+        {
+          "name": "currency-accounts",
+          "dbName": "currencyaccounts"
+        },
+        {
+          "name": "requests",
+          "dbName": "requests"
+        }
+      ],
+      "feathersSync": {
+        "db": "mongodb://peerpaid:Pe3rB41dP4sswurd@10.0.0.99:27017/peerpaid_fiat_server"
+      },
+      "db": "mongodb://peerpaid:Pe3rB41dP4sswurd@10.0.0.99:27017/peerpaid_fiat_server"
     }
   }
 }
