@@ -56,6 +56,10 @@
         {
           "name": "wallets",
           "dbName": "wallets"
+        },
+        {
+          "name": "notifications",
+          "dbName": "notifications"
         }
       ],
       "feathersSync": {
@@ -106,6 +110,10 @@
         {
           "name": "wallets",
           "dbName": "wallets"
+        },
+        {
+          "name": "notifications",
+          "dbName": "notifications"
         }
       ],
       "feathersSync": {
