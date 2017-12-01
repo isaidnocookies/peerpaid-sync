@@ -43,28 +43,28 @@
   "syncSettingsServers": {
     "DATA": {
       "feathersSync": {
-        "db": "mongodb://peerpaid:28811916-693E-4F80-88F0-99A135E5BE08@192.0.0.1:27017/peerpaid_data_server?ssl=true"
+        "db": "mongodb://peerpaid:28811916-693E-4F80-88F0-99A135E5BE08@52.51.64.95:27017/peerpaid_data_server?ssl=true"
       },
-      "db": "mongodb://peerpaid:28811916-693E-4F80-88F0-99A135E5BE08@192.0.0.1:27017/peerpaid_data_server?ssl=true"
+      "db": "mongodb://peerpaid:28811916-693E-4F80-88F0-99A135E5BE08@52.51.64.95:27017/peerpaid_data_server?ssl=true"
     },
     "BTC": {
       "feathersSync": {
-        "db": "mongodb://peerpaid:28811916-693E-4F80-88F0-99A135E5BE08@192.0.0.1:27017/peerpaid_btc_server?ssl=true"
+        "db": "mongodb://peerpaid:28811916-693E-4F80-88F0-99A135E5BE08@52.51.64.95:27017/peerpaid_btc_server?ssl=true"
       },
-      "db": "mongodb://peerpaid:28811916-693E-4F80-88F0-99A135E5BE08@192.0.0.1:27017/peerpaid_btc_server?ssl=true"
+      "db": "mongodb://peerpaid:28811916-693E-4F80-88F0-99A135E5BE08@52.51.64.95:27017/peerpaid_btc_server?ssl=true"
     },
     "WEB": {
       "feathersSync": {
-        "db": "mongodb://peerpaid:28811916-693E-4F80-88F0-99A135E5BE08@192.0.0.1:27017/peerpaid_web_server?ssl=true"
+        "db": "mongodb://peerpaid:28811916-693E-4F80-88F0-99A135E5BE08@52.51.64.95:27017/peerpaid_web_server?ssl=true"
       },
-      "db": "mongodb://peerpaid:28811916-693E-4F80-88F0-99A135E5BE08@192.0.0.1:27017/peerpaid_web_server?ssl=true"
+      "db": "mongodb://peerpaid:28811916-693E-4F80-88F0-99A135E5BE08@52.51.64.95:27017/peerpaid_web_server?ssl=true"
     },
     "FIAT": {
       "feathersSync": {
-        "db": "mongodb://peerpaid:28811916-693E-4F80-88F0-99A135E5BE08@192.0.0.1:27017/peerpaid_fiat_server?ssl=true"
+        "db": "mongodb://peerpaid:28811916-693E-4F80-88F0-99A135E5BE08@52.51.64.95:27017/peerpaid_fiat_server?ssl=true"
       },
-      "db": "mongodb://peerpaid:28811916-693E-4F80-88F0-99A135E5BE08@192.0.0.1:27017/peerpaid_fiat_server?ssl=true"
+      "db": "mongodb://peerpaid:28811916-693E-4F80-88F0-99A135E5BE08@52.51.64.95:27017/peerpaid_fiat_server?ssl=true"
     }
   },
-  "mongoCert": "/etc/ssl/certs/mongod.pem"
+  "mongoCert": "/Users/thelazycoder/ownCloud.lazycoder/PeerPaid operations/mongo.key"
 }

@@ -1,4 +1,5 @@
 var debug = require('debug')('feathers-sync');
+const fs = require('fs');
 const path = require('path');
 const favicon = require('serve-favicon');
 const compress = require('compression');
@@ -52,9 +53,9 @@ function makeApp(settings) {
         function markDeleted(hook) {
           return new Promise((resolve, reject) => {
             // var smallHook = Object.assign({}, hook, { params: Object.assign({}, hook.params, { user: null, payload: null }) });
-        
+
             // console.log("Hook", smallHook);
-        
+
             hook.app.service(serviceDef.name).update(hook.id, { $set: { "deleted": true } }).then(results => {
               hook.result = results || {};
               resolve(hook);
@@ -125,6 +126,22 @@ var appPromises = syncServerNames.map(serverName => {
   var syncDefault = JSON.parse(JSON.stringify(syncSettingsDefault));
   var syncServer = JSON.parse(JSON.stringify(syncSettingsServers[serverName]));
   var combinedSettings = deepAssign({ title: serverName }, syncDefault, syncServer);
+
+
+
+  if ((['production', 'devServer', 'productionPrep'].indexOf(process.env.NODE_ENV) >= 0) && config.has('mongoCert')) {
+    var cert = fs.readFileSync(config.get('mongoCert'), 'utf8');
+    var mongoOptions = {};
+    mongoOptions.ssl = true;
+    mongoOptions.sslValidate = false;
+    mongoOptions.sslKey = cert;
+    mongoOptions.sslCert = cert;
+    mongoOptions.sslCA = cert;
+
+    combinedSettings.feathersSync.mubsub = Object.assign({}, combinedSettings.feathersSync.mubsub, mongoOptions);
+    combinedSettings.mongoClient = Object.assign({}, combinedSettings.mongoClient, mongoOptions);
+  }
+
 
   return makeApp(combinedSettings);
 });

@@ -38,6 +38,10 @@
       "port": 3021,
       "services": [
         {
+          "name": "live-data",
+          "dbName": "livedatas"
+        },
+        {
           "name": "messenger",
           "dbName": "messenger"
         },
@@ -71,6 +75,10 @@
       "port": 3022,
       "services": [
         {
+          "name": "live-data",
+          "dbName": "livedatas"
+        },
+        {
           "name": "bitcoin-transactions",
           "dbName": "bitcointransactions"
         },
@@ -95,6 +103,10 @@
     "WEB": {
       "port": 3023,
       "services": [
+        {
+          "name": "live-data",
+          "dbName": "livedatas"
+        },
         {
           "name": "bitcoin-transactions",
           "dbName": "bitcointransactions"
@@ -124,6 +136,10 @@
     "FIAT": {
       "port": 3024,
       "services": [
+        {
+          "name": "live-data",
+          "dbName": "livedatas"
+        },
         {
           "name": "currency-accounts",
           "dbName": "currencyaccounts"
