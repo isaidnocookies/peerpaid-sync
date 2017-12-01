@@ -49,6 +49,21 @@ function makeApp(settings) {
     MongoClient.connect(settings.db, settings.mongoClient).then(function (db) {
       // Connect to the db, create and register a Feathers service.
       settings.services.forEach((serviceDef) => {
+        function markDeleted(hook) {
+          return new Promise((resolve, reject) => {
+            // var smallHook = Object.assign({}, hook, { params: Object.assign({}, hook.params, { user: null, payload: null }) });
+        
+            // console.log("Hook", smallHook);
+        
+            hook.app.service(serviceDef.name).update(hook.id, { $set: { "deleted": true } }).then(results => {
+              hook.result = results || {};
+              resolve(hook);
+            }).catch(error => {
+              hook.result = {};
+              resolve(hook);
+            })
+          })
+        }
         app.use('/' + serviceDef.name, mongoService({
           Model: db.collection(serviceDef.dbName),
           paginate: {
@@ -57,6 +72,11 @@ function makeApp(settings) {
           }
         }));
         app.service(serviceDef.name).hooks({
+          before: {
+            remove: [
+              markDeleted
+            ]
+          },
           after: {
             all: [
               hook => {
@@ -149,7 +169,7 @@ function performConnections(appA, appB) {
         var serviceDest = appDest.service(path);
         if (serviceDest) {
           service.on(event, (data) => {
-            debug(provider, path + '.on(' + event + ') = ', data._id);
+            debug(provider, path + '.on(' + event + ') = ', data._id || data);
             if (data.emitted === appDest.provider) {
               debug(provider, 'Emitted already', data._id, provider, appDest.provider, app === appDest);
               return;
