@@ -64,6 +64,10 @@
         {
           "name": "notifications",
           "dbName": "notifications"
+        },
+        {
+          "name": "internal-transaction",
+          "dbName": "internaltransactions"
         }
       ],
       "feathersSync": {
@@ -126,7 +130,11 @@
         {
           "name": "notifications",
           "dbName": "notifications"
-        }
+        },
+        {
+          "name": "internal-transaction",
+          "dbName": "internaltransactions"
+        }        
       ],
       "feathersSync": {
         "db": "mongodb://peerpaid:Pe3rB41dP4sswurd@10.0.0.99:27017/peerpaid_web_server"
@@ -136,6 +144,10 @@
     "FIAT": {
       "port": 3024,
       "services": [
+        {
+          "name": "live-data",
+          "dbName": "livedatas"
+        },
         {
           "name": "live-data",
           "dbName": "livedatas"
