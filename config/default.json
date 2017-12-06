@@ -38,6 +38,10 @@
       "port": 3021,
       "services": [
         {
+          "name":"trader-profile",
+          "dbName":"traderprofiles"
+        },
+        {
           "name": "live-data",
           "dbName": "livedatas"
         },
@@ -97,6 +101,10 @@
         {
           "name": "wallets",
           "dbName": "wallets"
+        },
+        {
+          "name": "internal-transaction",
+          "dbName": "internaltransactions"
         }
       ],
       "feathersSync": {
@@ -107,6 +115,10 @@
     "WEB": {
       "port": 3023,
       "services": [
+        {
+          "name":"trader-profile",
+          "dbName":"traderprofiles"
+        },
         {
           "name": "live-data",
           "dbName": "livedatas"
@@ -159,6 +171,10 @@
         {
           "name": "requests",
           "dbName": "requests"
+        },
+        {
+          "name": "internal-transaction",
+          "dbName": "internaltransactions"
         }
       ],
       "feathersSync": {
