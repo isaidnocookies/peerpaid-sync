@@ -186,8 +186,12 @@ function performConnections(appA, appB) {
         var serviceDest = appDest.service(path);
         if (serviceDest) {
           service.on(event, (data) => {
-            debug(provider, path + '.on(' + event + ') = ', data._id || data);
-            if (data.emitted === appDest.provider) {
+            console.log(data);
+            if (data === void 0 || data === undefined || data === null){
+              debug(provider, path + '.on(' + event + ') = ', "UNDEFINED");
+              return;
+            } 
+            else if (data.emitted === appDest.provider) {
               debug(provider, 'Emitted already', data._id, provider, appDest.provider, app === appDest);
               return;
             }
