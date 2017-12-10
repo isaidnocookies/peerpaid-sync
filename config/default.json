@@ -38,8 +38,20 @@
       "port": 3021,
       "services": [
         {
-          "name":"trader-profile",
-          "dbName":"traderprofiles"
+          "name": "bitcoin-transactions",
+          "dbName": "bitcointransactions"
+        },
+        {
+          "name": "consignment",
+          "dbName": "consignments"
+        },
+        {
+          "name": "currency-accounts",
+          "dbName": "currencyaccounts"
+        },
+        {
+          "name": "internal-transaction",
+          "dbName": "internaltransactions"
         },
         {
           "name": "live-data",
@@ -50,28 +62,28 @@
           "dbName": "messenger"
         },
         {
-          "name": "bitcoin-transactions",
-          "dbName": "bitcointransactions"
+          "name": "notifications",
+          "dbName": "notifications"
         },
         {
-          "name": "currency-accounts",
-          "dbName": "currencyaccounts"
+          "name": "order",
+          "dbName": "orders"
         },
         {
           "name": "requests",
           "dbName": "requests"
         },
         {
+          "name": "trade-offers",
+          "dbName": "trade-offers"
+        },
+        {
+          "name": "trader-profile",
+          "dbName": "traderprofiles"
+        },
+        {
           "name": "wallets",
           "dbName": "wallets"
-        },
-        {
-          "name": "notifications",
-          "dbName": "notifications"
-        },
-        {
-          "name": "internal-transaction",
-          "dbName": "internaltransactions"
         }
       ],
       "feathersSync": {
@@ -83,10 +95,6 @@
       "port": 3022,
       "services": [
         {
-          "name": "live-data",
-          "dbName": "livedatas"
-        },
-        {
           "name": "bitcoin-transactions",
           "dbName": "bitcointransactions"
         },
@@ -95,16 +103,20 @@
           "dbName": "currencyaccounts"
         },
         {
+          "name": "internal-transaction",
+          "dbName": "internaltransactions"
+        },
+        {
+          "name": "live-data",
+          "dbName": "livedatas"
+        },
+        {
           "name": "requests",
           "dbName": "requests"
         },
         {
           "name": "wallets",
           "dbName": "wallets"
-        },
-        {
-          "name": "internal-transaction",
-          "dbName": "internaltransactions"
         }
       ],
       "feathersSync": {
@@ -116,37 +128,49 @@
       "port": 3023,
       "services": [
         {
-          "name":"trader-profile",
-          "dbName":"traderprofiles"
-        },
-        {
-          "name": "live-data",
-          "dbName": "livedatas"
-        },
-        {
           "name": "bitcoin-transactions",
           "dbName": "bitcointransactions"
+        },
+        {
+          "name": "consignment",
+          "dbName": "consignments"
         },
         {
           "name": "currency-accounts",
           "dbName": "currencyaccounts"
         },
         {
-          "name": "requests",
-          "dbName": "requests"
+          "name": "internal-transaction",
+          "dbName": "internaltransactions"
         },
         {
-          "name": "wallets",
-          "dbName": "wallets"
+          "name": "live-data",
+          "dbName": "livedatas"
         },
         {
           "name": "notifications",
           "dbName": "notifications"
         },
         {
-          "name": "internal-transaction",
-          "dbName": "internaltransactions"
-        }        
+          "name": "order",
+          "dbName": "orders"
+        },
+        {
+          "name": "requests",
+          "dbName": "requests"
+        },
+        {
+          "name": "trade-offers",
+          "dbName": "trade-offers"
+        },
+        {
+          "name": "trader-profile",
+          "dbName": "traderprofiles"
+        },
+        {
+          "name": "wallets",
+          "dbName": "wallets"
+        }
       ],
       "feathersSync": {
         "db": "mongodb://peerpaid:Pe3rB41dP4sswurd@10.0.0.99:27017/peerpaid_web_server"
@@ -157,24 +181,20 @@
       "port": 3024,
       "services": [
         {
-          "name": "live-data",
-          "dbName": "livedatas"
-        },
-        {
-          "name": "live-data",
-          "dbName": "livedatas"
-        },
-        {
           "name": "currency-accounts",
           "dbName": "currencyaccounts"
         },
         {
-          "name": "requests",
-          "dbName": "requests"
-        },
-        {
           "name": "internal-transaction",
           "dbName": "internaltransactions"
+        },
+        {
+          "name": "live-data",
+          "dbName": "livedatas"
+        },
+        {
+          "name": "requests",
+          "dbName": "requests"
         }
       ],
       "feathersSync": {
