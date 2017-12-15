@@ -14,8 +14,8 @@ module.exports = {
   after: {
     all: [
       hook => {
-        if (hook.params.provider === "mubsub") {
-          throw new Error("Not Allowed");
+        if (hook.params.provider === 'mubsub') {
+          throw new Error('Not Allowed');
         }
       }
 

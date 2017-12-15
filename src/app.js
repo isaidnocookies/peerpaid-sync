@@ -56,14 +56,14 @@ function makeApp(settings) {
 
             // console.log("Hook", smallHook);
 
-            hook.app.service(serviceDef.name).update(hook.id, { $set: { "deleted": true } }).then(results => {
+            hook.app.service(serviceDef.name).update(hook.id, { $set: { 'deleted': true } }).then(results => {
               hook.result = results || {};
               resolve(hook);
             }).catch(error => {
               hook.result = {};
               resolve(hook);
-            })
-          })
+            });
+          });
         }
         app.use('/' + serviceDef.name, mongoService({
           Model: db.collection(serviceDef.dbName),
@@ -186,9 +186,8 @@ function performConnections(appA, appB) {
         var serviceDest = appDest.service(path);
         if (serviceDest) {
           service.on(event, (data) => {
-            console.log(data);
             if (data === void 0 || data === undefined || data === null){
-              debug(provider, path + '.on(' + event + ') = ', "UNDEFINED");
+              debug(provider, path + '.on(' + event + ') = ', 'UNDEFINED');
               return;
             } 
             else if (data.emitted === appDest.provider) {
@@ -196,50 +195,50 @@ function performConnections(appA, appB) {
               return;
             }
             switch (event) {
-              case 'created':
-                return new Promise((resolve, reject) => {
-                  serviceDest.create(data, { provider }).then(resolve).catch(reject);
-                });
-              case 'patched':
-                return new Promise((resolve, reject) => {
+            case 'created':
+              return new Promise((resolve, reject) => {
+                serviceDest.create(data, { provider }).then(resolve).catch(reject);
+              });
+            case 'patched':
+              return new Promise((resolve, reject) => {
+                var id = data._id || data.id;
+                serviceDest.patch(id, data, { provider }).then(resolve).catch(err => {
+                  return new Promise(resolve, reject => {
+                    setTimeout(() => {
+                      //retry 
+                      serviceDest.patch(id, data, { provider }).then(resolve).catch(reject);
+                    }, 100);
+                  });
+                }).catch(reject);
+              });
+            case 'updated':
+              return new Promise((resolve, reject) => {
+                var id = data._id || data.id;
+                serviceDest.update(id, data, { provider }).then(resolve).catch(err => {
+                  return new Promise(resolve, reject => {
+                    setTimeout(() => {
+                      //retry 
+                      serviceDest.update(data, { provider }).then(resolve).catch(reject);
+                    }, 100);
+                  });
+                }).catch(reject);
+              }).catch(error => debug(path + 'A.updateErr:', error));
+            case 'removed':
+              return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                  // always delay remove
                   var id = data._id || data.id;
-                  serviceDest.patch(id, data, { provider }).then(resolve).catch(err => {
+                  serviceDest.remove(id, { provider }).then(resolve).catch(err => {
                     return new Promise(resolve, reject => {
                       setTimeout(() => {
                         //retry 
-                        serviceDest.patch(id, data, { provider }).then(resolve).catch(reject);
+                        serviceDest.remove(id, { provider }).then(resolve).catch(reject);
                       }, 100);
                     });
                   }).catch(reject);
-                });
-              case 'updated':
-                return new Promise((resolve, reject) => {
-                  var id = data._id || data.id;
-                  serviceDest.update(id, data, { provider }).then(resolve).catch(err => {
-                    return new Promise(resolve, reject => {
-                      setTimeout(() => {
-                        //retry 
-                        serviceDest.update(data, { provider }).then(resolve).catch(reject);
-                      }, 100);
-                    });
-                  }).catch(reject);
-                }).catch(error => debug(path + 'A.updateErr:', error));
-              case 'removed':
-                return new Promise((resolve, reject) => {
-                  setTimeout(() => {
-                    // always delay remove
-                    var id = data._id || data.id;
-                    serviceDest.remove(id, { provider }).then(resolve).catch(err => {
-                      return new Promise(resolve, reject => {
-                        setTimeout(() => {
-                          //retry 
-                          serviceDest.remove(id, { provider }).then(resolve).catch(reject);
-                        }, 100);
-                      });
-                    }).catch(reject);
-                  }, 500);
-                });
-              default:
+                }, 500);
+              });
+            default:
               //do nothing
             }
           });
