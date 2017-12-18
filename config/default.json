@@ -82,6 +82,10 @@
           "dbName": "traderprofiles"
         },
         {
+          "name": "upload",
+          "dbName": "uploads"
+        },
+        {
           "name": "wallets",
           "dbName": "wallets"
         }
@@ -168,6 +172,10 @@
           "dbName": "traderprofiles"
         },
         {
+          "name": "upload",
+          "dbName": "uploads"
+        },
+        {
           "name": "wallets",
           "dbName": "wallets"
         }
@@ -195,6 +203,10 @@
         {
           "name": "requests",
           "dbName": "requests"
+        },
+        {
+          "name": "upload",
+          "dbName": "uploads"
         }
       ],
       "feathersSync": {
