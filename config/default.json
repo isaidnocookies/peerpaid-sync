@@ -213,6 +213,23 @@
         "db": "mongodb://peerpaid:Pe3rB41dP4sswurd@10.0.0.99:27017/peerpaid_fiat_server"
       },
       "db": "mongodb://peerpaid:Pe3rB41dP4sswurd@10.0.0.99:27017/peerpaid_fiat_server"
+    },
+    "ADMIN": {
+      "port": 3033,
+      "services": [
+        {
+          "name": "notifications",
+          "dbName": "notifications"
+        },
+        {
+          "name": "requests",
+          "dbName": "requests"
+        }
+      ],
+      "feathersSync": {
+        "db": "mongodb://peerpaid:Pe3rB41dP4sswurd@10.0.0.99:27017/peerpaid_admin_server"
+      },
+      "db": "mongodb://peerpaid:Pe3rB41dP4sswurd@10.0.0.99:27017/peerpaid_admin_server"
     }
   }
 }

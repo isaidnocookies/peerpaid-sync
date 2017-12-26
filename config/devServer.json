@@ -64,6 +64,12 @@
         "db": "mongodb://peerpaid:28811916-693E-4F80-88F0-99A135E5BE08@172.31.34.77:27017/peerpaid_fiat_server?ssl=true"
       },
       "db": "mongodb://peerpaid:28811916-693E-4F80-88F0-99A135E5BE08@172.31.34.77:27017/peerpaid_fiat_server?ssl=true"
+    },
+    "ADMIN": {
+      "feathersSync": {
+        "db": "mongodb://peerpaid:28811916-693E-4F80-88F0-99A135E5BE08@172.31.34.77:27017/peerpaid_admin_server?ssl=true"
+      },
+      "db": "mongodb://peerpaid:28811916-693E-4F80-88F0-99A135E5BE08@172.31.34.77:27017/peerpaid_admin_server?ssl=true"
     }
   },
   "mongoCert": "/etc/ssl/certs/mongod.pem"  

@@ -33,6 +33,12 @@
         "db": "mongodb://localhost:27017/peerpaid_fiat"
       },
       "db": "mongodb://localhost:27017/peerpaid_fiat"
+    },
+    "ADMIN": {
+      "feathersSync": {
+        "db": "mongodb://localhost:27017/peerpaid_admin"
+      },
+      "db": "mongodb://localhost:27017/peerpaid_admin"
     }
   }
 }
