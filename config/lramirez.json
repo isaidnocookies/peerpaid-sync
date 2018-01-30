@@ -2,43 +2,43 @@
   "syncSettingsDefault": {
     "feathersSync": {
       "mubsub": {
-        "authSource": null
+        "authSource": "admin"
       }
     },
     "mongoClient": {
-      "authSource": null
+      "authSource": "admin"
     }
   },
   "syncSettingsServers": {
     "DATA": {
       "feathersSync": {
-        "db": "mongodb://localhost:27017/peerpaid_data"
+        "db": "mongodb://lramirez:lramirez@10.1.1.90:27017/lramirez_peerpaid_data"
       },
-      "db": "mongodb://localhost:27017/peerpaid_data"
+      "db": "mongodb://lramirez:lramirez@10.1.1.90:27017/lramirez_peerpaid_data"
     },
     "BTC": {
       "feathersSync": {
-        "db": "mongodb://localhost:27017/peerpaid_btc"
+        "db": "mongodb://lramirez:lramirez@10.1.1.90:27017/lramirez_peerpaid_btc"
       },
-      "db": "mongodb://localhost:27017/peerpaid_btc"
+      "db": "mongodb://lramirez:lramirez@10.1.1.90:27017/lramirez_peerpaid_btc"
     },
     "WEB": {
       "feathersSync": {
-        "db": "mongodb://localhost:27017/peerpaid_web"
+        "db": "mongodb://lramirez:lramirez@10.1.1.90:27017/lramirez_peerpaid_web"
       },
-      "db": "mongodb://localhost:27017/peerpaid_web"
+      "db": "mongodb://lramirez:lramirez@10.1.1.90:27017/lramirez_peerpaid_web"
     },
     "FIAT": {
       "feathersSync": {
-        "db": "mongodb://localhost:27017/peerpaid_fiat"
+        "db": "mongodb://lramirez:lramirez@10.1.1.90:27017/lramirez_peerpaid_fiat"
       },
-      "db": "mongodb://localhost:27017/peerpaid_fiat"
+      "db": "mongodb://lramirez:lramirez@10.1.1.90:27017/lramirez_peerpaid_fiat"
     },
     "ADMIN": {
       "feathersSync": {
-        "db": "mongodb://localhost:27017/peerpaid_admin"
+        "db": "mongodb://lramirez:lramirez@10.1.1.90:27017/lramirez_peerpaid_admin"
       },
-      "db": "mongodb://localhost:27017/peerpaid_admin"
+      "db": "mongodb://lramirez:lramirez@10.1.1.90:27017/lramirez_peerpaid_admin"
     }
   }
 }
